@@ -42,10 +42,9 @@
 </head>
 <body class="bg-white font-sans antialiased">
 
-    <!-- HEADER / NAVBAR avec hauteur augmentée -->
+    <!-- HEADER / NAVBAR -->
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 transition-all duration-300 sticky-nav">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <!-- Logo avec texte uniquement -->
             <div class="flex items-center">
                 <span class="text-3xl font-bold text-[#E53935] tracking-tight">SanteRDV</span>
             </div>
@@ -131,6 +130,59 @@
                     </div>
                     <h3 class="text-2xl font-bold text-gray-800 mb-3">Espace patient sécurisé</h3>
                     <p class="text-gray-600 text-lg">Gérez votre historique médical, vos ordonnances et échangez avec vos praticiens en toute confidentialité.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION "À PROPOS" AGRANDIE ==================== -->
+    <section class="py-24" style="background-color: #F5F5F0;">
+        <div class="container mx-auto px-6">
+            <!-- Cadre gris qui prend toute la largeur du container -->
+            <div class="w-full" style="background-color: #BFC4CA; border-radius: 1.5rem; overflow: hidden;">
+                <div class="flex flex-col md:flex-row">
+                    <!-- Colonne image -->
+                    <div class="md:w-2/5 p-10 md:p-12 flex items-center justify-center">
+                        <img src="{{ asset('images/about-section.png') }}" alt="Santé" class="w-full max-w-lg rounded-xl shadow-lg">
+                    </div>
+                    <!-- Colonne texte -->
+                    <div class="md:w-3/5 p-10 md:p-12">
+                        <h2 class="text-4xl md:text-5xl font-bold text-[#43A047] mb-8 leading-tight">
+                            Vivez en meilleure santé grâce à SanteRDV
+                        </h2>
+                        <p class="text-gray-700 text-lg md:text-xl mb-8 leading-relaxed">
+                            SanteRDV est une plateforme de prise de rendez-vous médicaux en ligne au Bénin. Notre mission : améliorer l'accès aux soins de santé pour tous.
+                        </p>
+                        <div class="space-y-8">
+                            <div class="flex gap-5">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-[#1E88E5] text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Un accès facilité aux soins</h3>
+                                    <p class="text-gray-600 text-lg">Trouvez rapidement un cardiologue, dentiste, pédiatre ou laboratoire près de chez vous et prenez rendez-vous en ligne.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-5">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-folder-open text-[#1E88E5] text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Un meilleur suivi médical</h3>
+                                    <p class="text-gray-600 text-lg">Gérez votre parcours de santé, partagez vos documents médicaux et recevez des rappels automatiques.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-5">
+                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-clock text-[#1E88E5] text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Une santé accessible 24h/24</h3>
+                                    <p class="text-gray-600 text-lg">Plus d'attente au téléphone. Prenez le contrôle de votre santé en quelques clics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -411,11 +463,9 @@
         const medecinSelect = document.getElementById('medecin');
         const btnRechercher = document.getElementById('btnRechercher');
 
-        // Mise à jour de la liste des médecins
         specialiteSelect.addEventListener('change', function() {
             const valeur = this.value;
             medecinSelect.innerHTML = '<option value="">Sélectionnez un médecin</option>';
-
             if (valeur && medecinsParSpecialite[valeur]) {
                 medecinsParSpecialite[valeur].forEach(medecin => {
                     const option = document.createElement('option');
@@ -426,7 +476,6 @@
             }
         });
 
-        // Action du bouton Rechercher
         btnRechercher.addEventListener('click', function() {
             const medecinId = medecinSelect.value;
             if (!medecinId) {
@@ -436,7 +485,6 @@
             window.location.href = "{{ route('register') }}?doctor=" + medecinId;
         });
 
-        // Gestion des boutons d'urgence (défilement vers la section urgence)
         document.querySelectorAll('#emergency-nav, #emergency-fab').forEach(el => {
             el.addEventListener('click', (e) => {
                 e.preventDefault();
