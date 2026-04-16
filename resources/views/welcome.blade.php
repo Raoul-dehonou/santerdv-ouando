@@ -2,497 +2,799 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SanteRDV – Centre de santé de Ouando</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre de Santé Ouando - Excellence en soins de santé</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fadeInUp {
-            animation: fadeInUp 0.6s ease-out forwards;
+        
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        .card-hover {
-            transition: all 0.3s ease;
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.15);
+        
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .emergency-btn {
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(2deg); }
         }
-        .emergency-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(229, 57, 53, 0.4);
+        
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(25px) rotate(-2deg); }
         }
-        .sticky-nav {
-            backdrop-filter: blur(8px);
-            background-color: rgba(255,255,255,0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
-        html {
-            scroll-behavior: smooth;
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-fadeInUp { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        .animate-fadeInLeft { animation: fadeInLeft 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        .animate-fadeInRight { animation: fadeInRight 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        .animate-zoomIn { animation: zoomIn 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        .animate-float { animation: float 8s ease-in-out infinite; }
+        .animate-float-reverse { animation: floatReverse 8s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse 4s ease-in-out infinite; }
+        .animate-rotate-slow { animation: rotateSlow 20s linear infinite; }
+        .animate-bounce-slow { animation: bounce 3s ease-in-out infinite; }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+        
+        .bg-gradient-hero {
+            background: linear-gradient(135deg, #0B5E42 0%, #074231 40%, #0a4e38 70%, #0B5E42 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite;
+        }
+        
+        .bg-gradient-card {
+            background: linear-gradient(135deg, rgba(11, 94, 66, 0.08) 0%, rgba(7, 66, 49, 0.03) 100%);
+        }
+        
+        .bg-gradient-footer {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #0B5E42 0%, #2D8C6A 50%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: gradientShift 5s ease infinite;
+        }
+        
+        .hover-scale {
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .hover-scale:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 40px -20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .card-shine:hover::before {
+            left: 100%;
+        }
+        
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0B5E42, #F59E0B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Particles canvas */
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0B5E42;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #074231;
         }
     </style>
 </head>
-<body class="bg-white font-sans antialiased">
-
-    <!-- HEADER / NAVBAR -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 transition-all duration-300 sticky-nav">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <span class="text-3xl font-bold text-[#E53935] tracking-tight">SanteRDV</span>
+<body class="bg-gray-50 overflow-x-hidden">
+    
+    <!-- Canvas Particules -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Navbar sticky avec effet glassmorphism -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-hero flex items-center justify-center shadow-lg animate-bounce-slow">
+                        <i class="fas fa-hospital-user text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Santé<span class="text-[#0B5E42]">RDV</span></span>
+                        <p class="text-xs text-gray-500">Centre Médical d'Excellence</p>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:flex space-x-10">
+                    <a href="#accueil" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Accueil
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#services" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Services
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#specialites" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Spécialités
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#medecins" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Médecins
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#temoignages" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Témoignages
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="text-gray-600 hover:text-[#0B5E42] transition-all duration-300 font-medium relative group">
+                        Contact
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#0B5E42] transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <a href="{{ route('login') }}" class="px-5 py-2.5 border-2 border-[#0B5E42] text-[#0B5E42] rounded-xl font-semibold hover:bg-[#0B5E42] hover:text-white transition-all duration-300 hover:shadow-lg">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </a>
+                    <a href="{{ route('register') }}" class="px-5 py-2.5 bg-gradient-hero text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                        <i class="fas fa-user-plus mr-2"></i>Inscription
+                    </a>
+                </div>
             </div>
-            <nav class="hidden md:flex space-x-8 text-gray-700 font-medium">
-                <a href="#accueil" class="hover:text-[#1E88E5] transition">Accueil</a>
-                <a href="#services" class="hover:text-[#1E88E5] transition">Services</a>
-                <a href="#specialistes" class="hover:text-[#1E88E5] transition">Spécialistes</a>
-                <a href="#centre" class="hover:text-[#1E88E5] transition">Le centre</a>
-            </nav>
-            <div class="flex items-center space-x-3">
-                <a href="{{ route('login') }}" class="hidden md:inline-block text-gray-700 hover:text-[#1E88E5] transition font-medium">Connexion</a>
-                <a href="{{ route('register') }}" class="hidden md:inline-block bg-[#43A047] text-white px-5 py-2 rounded-full hover:bg-[#2E7D32] transition shadow-sm">Inscription</a>
-                <a href="#" id="emergency-nav" class="bg-[#E53935] text-white px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-[#C62828] transition shadow-md">
-                    <i class="fas fa-ambulance"></i>
-                    <span class="hidden md:inline">Urgence</span>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="accueil" class="min-h-screen bg-gradient-hero relative overflow-hidden pt-20">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="absolute top-20 left-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl animate-pulse-slow delay-500"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/10 rounded-full animate-rotate-slow"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full animate-rotate-slow" style="animation-direction: reverse;"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-5 py-2 animate-fadeInUp">
+                        <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
+                        <span class="text-white text-sm font-medium">🏥 Centre médical d'excellence</span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-7xl font-bold text-white leading-tight animate-fadeInUp delay-100">
+                        Votre santé,
+                        <span class="text-gradient bg-white/20 bg-clip-text text-white">notre passion</span>
+                    </h1>
+                    
+                    <p class="text-white/80 text-lg leading-relaxed animate-fadeInUp delay-200">
+                        Prenez rendez-vous en ligne et suivez votre parcours de soins depuis chez vous. 
+                        Une équipe dédiée à votre bien-être 24h/24 et 7j/7.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 animate-fadeInUp delay-300">
+                        <a href="{{ route('register') }}" class="group px-8 py-4 bg-white text-[#0B5E42] rounded-xl font-bold hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                            <i class="fas fa-calendar-plus mr-2 group-hover:rotate-6 transition"></i>
+                            Prendre rendez-vous
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                        </a>
+                        <a href="#services" class="px-8 py-4 border-2 border-white/30 text-white rounded-xl font-bold hover:bg-white/10 transition-all duration-300">
+                            <i class="fas fa-play-circle mr-2"></i>
+                            Découvrir nos services
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-6 pt-8 border-t border-white/20 animate-fadeInUp delay-400">
+                        <div class="text-center group cursor-pointer">
+                            <div class="text-4xl font-bold text-white counter-number" data-target="10000">0</div>
+                            <p class="text-white/70 text-sm mt-1 group-hover:text-white transition">Patients satisfaits</p>
+                            <div class="w-0 h-0.5 bg-[#F59E0B] mx-auto mt-2 group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="text-4xl font-bold text-white counter-number" data-target="15">0</div>
+                            <p class="text-white/70 text-sm mt-1 group-hover:text-white transition">Médecins experts</p>
+                            <div class="w-0 h-0.5 bg-[#F59E0B] mx-auto mt-2 group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                        <div class="text-center group cursor-pointer">
+                            <div class="text-4xl font-bold text-white counter-number" data-target="24">0</div>
+                            <p class="text-white/70 text-sm mt-1 group-hover:text-white transition">Service disponible</p>
+                            <div class="w-0 h-0.5 bg-[#F59E0B] mx-auto mt-2 group-hover:w-full transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative animate-float" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=550&fit=crop" alt="Doctor" class="w-full h-auto object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                    
+                    <!-- Floating cards -->
+                    <div class="absolute -top-6 -right-6 bg-white rounded-2xl shadow-2xl p-4 animate-float-reverse">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">RDV en ligne</p>
+                                <p class="text-sm text-gray-500">Gratuit et rapide</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-2xl p-4 animate-float">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-clock text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">24h/24 - 7j/7</p>
+                                <p class="text-sm text-gray-500">Service d'urgence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wave bottom -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#f9fafb" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,208C384,203,480,181,576,176C672,171,768,181,864,197.3C960,213,1056,235,1152,234.7C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-[#0B5E42] font-semibold uppercase tracking-wider text-sm">Nos services</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mt-3">Des soins complets pour<br>toute la famille</h2>
+                <div class="w-24 h-1 bg-gradient-hero mx-auto mt-5 rounded-full"></div>
+                <p class="text-gray-500 mt-5 max-w-2xl mx-auto">Des prestations médicales de qualité supérieure pour répondre à tous vos besoins de santé</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover-scale card-shine" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-hero flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-stethoscope text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Consultations</h3>
+                    <p class="text-gray-500 leading-relaxed">Consultations générales et spécialisées avec nos médecins experts.</p>
+                    <a href="#" class="inline-flex items-center gap-2 text-[#0B5E42] font-medium mt-5 hover:gap-3 transition-all">
+                        En savoir plus <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover-scale card-shine" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-hero flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-ambulance text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Urgences 24/7</h3>
+                    <p class="text-gray-500 leading-relaxed">Service d'urgence disponible 24 heures sur 24, 7 jours sur 7.</p>
+                    <a href="#" class="inline-flex items-center gap-2 text-[#0B5E42] font-medium mt-5 hover:gap-3 transition-all">
+                        En savoir plus <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover-scale card-shine" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-hero flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-prescription-bottle text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Pharmacie</h3>
+                    <p class="text-gray-500 leading-relaxed">Pharmacie intégrée avec prise en charge de vos ordonnances.</p>
+                    <a href="#" class="inline-flex items-center gap-2 text-[#0B5E42] font-medium mt-5 hover:gap-3 transition-all">
+                        En savoir plus <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover-scale card-shine" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-hero flex items-center justify-center mb-6 shadow-lg">
+                        <i class="fas fa-flask text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Laboratoire</h3>
+                    <p class="text-gray-500 leading-relaxed">Analyses médicales rapides et fiables sur place.</p>
+                    <a href="#" class="inline-flex items-center gap-2 text-[#0B5E42] font-medium mt-5 hover:gap-3 transition-all">
+                        En savoir plus <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Spécialités Section -->
+    <section id="specialites" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-[#0B5E42] font-semibold uppercase tracking-wider text-sm">Nos spécialités</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mt-3">Des experts dans<br>chaque domaine</h2>
+                <div class="w-24 h-1 bg-gradient-hero mx-auto mt-5 rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg" data-aos="flip-left" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=400&h=300&fit=crop" alt="Cardiologie" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Cardiologie</h3>
+                        <p class="text-white/80 text-sm mt-1">Soins cardiaques avancés</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg" data-aos="flip-left" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=400&h=300&fit=crop" alt="Pédiatrie" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Pédiatrie</h3>
+                        <p class="text-white/80 text-sm mt-1">Soins pour enfants</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg" data-aos="flip-left" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=300&fit=crop" alt="Gynécologie" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 class="text-2xl font-bold text-white">Gynécologie</h3>
+                        <p class="text-white/80 text-sm mt-1">Santé de la femme</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Médecins Section -->
+    <section id="medecins" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-[#0B5E42] font-semibold uppercase tracking-wider text-sm">Notre équipe</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mt-3">Des médecins d'exception</h2>
+                <div class="w-24 h-1 bg-gradient-hero mx-auto mt-5 rounded-full"></div>
+                <p class="text-gray-500 mt-5 max-w-2xl mx-auto">Une équipe pluridisciplinaire à votre écoute</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center group cursor-pointer" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="relative">
+                        <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-xl group-hover:scale-105 transition duration-500">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Doctor" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-[#0B5E42] text-white px-4 py-1 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
+                            Voir profil
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-800 mt-5">Dr. Adjanohoun</h4>
+                    <p class="text-[#0B5E42] font-medium">Cardiologue</p>
+                    <p class="text-gray-500 text-sm mt-2">15 ans d'expérience</p>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <i class="fab fa-facebook text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-twitter text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-linkedin text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                    </div>
+                </div>
+                <div class="text-center group cursor-pointer" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="relative">
+                        <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-xl group-hover:scale-105 transition duration-500">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Doctor" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-[#0B5E42] text-white px-4 py-1 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
+                            Voir profil
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-800 mt-5">Dr. Bio</h4>
+                    <p class="text-[#0B5E42] font-medium">Généraliste</p>
+                    <p class="text-gray-500 text-sm mt-2">10 ans d'expérience</p>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <i class="fab fa-facebook text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-twitter text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-linkedin text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                    </div>
+                </div>
+                <div class="text-center group cursor-pointer" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="relative">
+                        <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-xl group-hover:scale-105 transition duration-500">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Doctor" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-[#0B5E42] text-white px-4 py-1 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
+                            Voir profil
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-800 mt-5">Dr. Zinsou</h4>
+                    <p class="text-[#0B5E42] font-medium">Pédiatre</p>
+                    <p class="text-gray-500 text-sm mt-2">8 ans d'expérience</p>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <i class="fab fa-facebook text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-twitter text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-linkedin text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                    </div>
+                </div>
+                <div class="text-center group cursor-pointer" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="relative">
+                        <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-xl group-hover:scale-105 transition duration-500">
+                            <img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Doctor" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-[#0B5E42] text-white px-4 py-1 rounded-full text-sm font-semibold opacity-0 group-hover:opacity-100 transition">
+                            Voir profil
+                        </div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-800 mt-5">Dr. Houndjo</h4>
+                    <p class="text-[#0B5E42] font-medium">Gynécologue</p>
+                    <p class="text-gray-500 text-sm mt-2">12 ans d'expérience</p>
+                    <div class="flex justify-center gap-2 mt-3">
+                        <i class="fab fa-facebook text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-twitter text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                        <i class="fab fa-linkedin text-gray-400 hover:text-[#0B5E42] transition cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Témoignages Section -->
+    <section id="temoignages" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-[#0B5E42] font-semibold uppercase tracking-wider text-sm">Témoignages</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mt-3">Ce que disent nos patients</h2>
+                <div class="w-24 h-1 bg-gradient-hero mx-auto mt-5 rounded-full"></div>
+            </div>
+            
+            <div class="swiper testimonial-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="bg-gray-50 rounded-2xl p-8 shadow-lg mx-4">
+                            <div class="flex items-center gap-4 mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/1.jpg" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Marie Zinsou</h4>
+                                    <div class="flex text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"Excellent service ! Prise de rendez-vous rapide et équipe très professionnelle. Je recommande vivement !"</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="bg-gray-50 rounded-2xl p-8 shadow-lg mx-4">
+                            <div class="flex items-center gap-4 mb-6">
+                                <img src="https://randomuser.me/api/portraits/men/2.jpg" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Jean Kouassi</h4>
+                                    <div class="flex text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"Très bonne expérience. Le docteur a été à l'écoute et le personnel très accueillant."</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="bg-gray-50 rounded-2xl p-8 shadow-lg mx-4">
+                            <div class="flex items-center gap-4 mb-6">
+                                <img src="https://randomuser.me/api/portraits/women/3.jpg" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Fatima Bello</h4>
+                                    <div class="flex text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"Plateforme moderne et intuitive. Suivi médical de qualité. Je suis ravie !"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination mt-8"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-hero relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="relative max-w-4xl mx-auto text-center px-4" data-aos="zoom-in">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-5">Prenez rendez-vous dès maintenant</h2>
+            <p class="text-white/80 text-xl mb-10">Inscrivez-vous et bénéficiez d'un suivi médical personnalisé</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{{ route('register') }}" class="group px-10 py-4 bg-white text-[#0B5E42] rounded-xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-calendar-plus mr-2 group-hover:rotate-6 transition"></i>
+                    Commencer
+                    <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition"></i>
+                </a>
+                <a href="#contact" class="px-10 py-4 border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all duration-300">
+                    <i class="fas fa-phone-alt mr-2"></i>
+                    Nous contacter
                 </a>
             </div>
         </div>
-    </header>
-
-    <!-- BOUTON URGENCE FLOTTANT -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <a href="#" id="emergency-fab" class="emergency-btn bg-[#E53935] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-xl hover:bg-[#C62828] transition-all duration-300">
-            <i class="fas fa-ambulance text-2xl"></i>
-        </a>
-    </div>
-
-    <!-- ==================== BANNIÈRE ==================== -->
-    <section id="accueil" class="py-10 md:py-16" style="background-color: #2E4392;">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-8 leading-tight whitespace-nowrap">
-                    Prenez <span class="underline decoration-2 decoration-white">rendez-vous</span> avec un <span class="underline decoration-2 decoration-white">médecin</span> en quelques clics
-                </h1>
-                <div class="bg-white rounded-2xl shadow-xl p-5 md:p-6 border border-gray-100">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div>
-                            <select id="specialite" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E88E5]">
-                                <option value=""> Spécialité</option>
-                                <option value="generaliste">Médecine générale</option>
-                                <option value="pediatrie">Pédiatrie</option>
-                                <option value="gynecologie">Gynécologie</option>
-                                <option value="cardiologie">Cardiologie</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select id="medecin" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1E88E5]">
-                                <option value="">Choisir spécialité</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button id="btnRechercher" class="w-full bg-[#E53935] text-white font-semibold py-2.5 rounded-lg hover:bg-[#C62828] transition shadow-md">
-                                <i class="fas fa-search mr-2"></i> Rechercher
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h3 class="text-2xl font-bold text-white mb-3">Restez informé</h3>
+            <p class="text-gray-400 mb-6">Recevez nos actualités et conseils santé</p>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                <input type="email" placeholder="Votre email" class="flex-1 px-5 py-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-[#0B5E42] transition">
+                <button type="submit" class="px-6 py-3 bg-[#0B5E42] text-white rounded-xl font-semibold hover:bg-[#074231] transition">S'abonner</button>
+            </form>
         </div>
     </section>
-
-    <!-- ==================== TROIS CARTES DE FONCTIONNALITÉS ==================== -->
-    <section class="py-16 bg-gradient-to-br from-white to-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card-hover bg-transparent rounded-2xl p-8 shadow-xl text-center border border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md">
-                        <i class="fas fa-search text-3xl text-[#1E88E5]"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Trouvez facilement</h3>
-                    <p class="text-gray-600 text-lg">Recherchez des professionnels de santé près de chez vous, par spécialité ou par nom.</p>
-                </div>
-                <div class="card-hover bg-transparent rounded-2xl p-8 shadow-xl text-center border border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <div class="w-20 h-20 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md">
-                        <i class="fas fa-calendar-check text-3xl text-[#E53935]"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Réservez en ligne</h3>
-                    <p class="text-gray-600 text-lg">Prenez rendez-vous 24h/24 depuis votre téléphone ou ordinateur, en quelques clics.</p>
-                </div>
-                <div class="card-hover bg-transparent rounded-2xl p-8 shadow-xl text-center border border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <div class="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-md">
-                        <i class="fas fa-shield-alt text-3xl text-[#1E88E5]"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Espace patient sécurisé</h3>
-                    <p class="text-gray-600 text-lg">Gérez votre historique médical, vos ordonnances et échangez avec vos praticiens en toute confidentialité.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION "À PROPOS" AGRANDIE ==================== -->
-    <section class="py-24" style="background-color: #F5F5F0;">
-        <div class="container mx-auto px-6">
-            <!-- Cadre gris qui prend toute la largeur du container -->
-            <div class="w-full" style="background-color: #BFC4CA; border-radius: 1.5rem; overflow: hidden;">
-                <div class="flex flex-col md:flex-row">
-                    <!-- Colonne image -->
-                    <div class="md:w-2/5 p-10 md:p-12 flex items-center justify-center">
-                        <img src="{{ asset('images/about-section.png') }}" alt="Santé" class="w-full max-w-lg rounded-xl shadow-lg">
-                    </div>
-                    <!-- Colonne texte -->
-                    <div class="md:w-3/5 p-10 md:p-12">
-                        <h2 class="text-4xl md:text-5xl font-bold text-[#43A047] mb-8 leading-tight">
-                            Vivez en meilleure santé grâce à SanteRDV
-                        </h2>
-                        <p class="text-gray-700 text-lg md:text-xl mb-8 leading-relaxed">
-                            SanteRDV est une plateforme de prise de rendez-vous médicaux en ligne au Bénin. Notre mission : améliorer l'accès aux soins de santé pour tous.
-                        </p>
-                        <div class="space-y-8">
-                            <div class="flex gap-5">
-                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-[#1E88E5] text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Un accès facilité aux soins</h3>
-                                    <p class="text-gray-600 text-lg">Trouvez rapidement un cardiologue, dentiste, pédiatre ou laboratoire près de chez vous et prenez rendez-vous en ligne.</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-5">
-                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-folder-open text-[#1E88E5] text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Un meilleur suivi médical</h3>
-                                    <p class="text-gray-600 text-lg">Gérez votre parcours de santé, partagez vos documents médicaux et recevez des rappels automatiques.</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-5">
-                                <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-clock text-[#1E88E5] text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-semibold text-gray-800 text-xl mb-2">Une santé accessible 24h/24</h3>
-                                    <p class="text-gray-600 text-lg">Plus d'attente au téléphone. Prenez le contrôle de votre santé en quelques clics.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION URGENCE ==================== -->
-    <section class="bg-red-50 py-16">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-3xl mx-auto">
-                <i class="fas fa-heartbeat text-5xl text-[#E53935] mb-4"></i>
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Besoin d’une prise en charge urgente ?</h2>
-                <p class="text-gray-600 text-lg mb-6">
-                    Une prise en charge rapide peut sauver des vies. Si vous ou un proche présentez des symptômes graves, n'attendez pas.
-                </p>
-                <a href="#" class="inline-flex items-center bg-[#E53935] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#C62828] transition shadow-md">
-                    <i class="fas fa-phone-alt mr-2"></i> Signaler une urgence
-                </a>
-                <p class="text-sm text-gray-500 mt-4">Notre équipe vous recontactera immédiatement.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION CONFIANCE (CARTES) ==================== -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Pourquoi nous faire confiance ?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="card-hover bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-lock text-2xl text-[#1E88E5]"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Données sécurisées</h3>
-                    <p class="text-gray-600">Vos informations médicales sont protégées selon les normes de sécurité les plus strictes.</p>
-                </div>
-                <div class="card-hover bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-hospital-user text-2xl text-[#43A047]"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Centre certifié</h3>
-                    <p class="text-gray-600">Le Centre de santé de Ouando est agréé par le ministère de la Santé.</p>
-                </div>
-                <div class="card-hover bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-calendar-check text-2xl text-[#1E88E5]"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Rendez-vous fiables</h3>
-                    <p class="text-gray-600">Confirmation immédiate et rappel automatique pour ne rien oublier.</p>
-                </div>
-                <div class="card-hover bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-bell text-2xl text-[#43A047]"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Notifications automatiques</h3>
-                    <p class="text-gray-600">SMS et emails pour confirmer, rappeler et informer des changements.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION SERVICES (cliquables) ==================== -->
-    <section id="services" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nos services</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="card-hover bg-white rounded-xl p-6 shadow-sm text-center cursor-pointer transition-all duration-300 hover:shadow-md group" onclick="window.location='{{ route('register') }}'">
-                    <i class="fas fa-calendar-alt text-4xl text-[#1E88E5] mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Prise de rendez-vous en ligne</h3>
-                    <p class="text-gray-600">Choisissez votre médecin, votre créneau, et validez en quelques clics.</p>
-                    <span class="inline-block mt-4 text-[#1E88E5] font-medium group-hover:underline">Prendre rendez-vous →</span>
-                </div>
-                <div class="card-hover bg-white rounded-xl p-6 shadow-sm text-center cursor-pointer transition-all duration-300 hover:shadow-md group" onclick="window.location='{{ route('register') }}'">
-                    <i class="fas fa-folder-open text-4xl text-[#1E88E5] mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Dossier médical numérique</h3>
-                    <p class="text-gray-600">Accédez à votre historique, résultats et ordonnances à tout moment.</p>
-                    <span class="inline-block mt-4 text-[#1E88E5] font-medium group-hover:underline">En savoir plus →</span>
-                </div>
-                <div class="card-hover bg-white rounded-xl p-6 shadow-sm text-center cursor-pointer transition-all duration-300 hover:shadow-md group" onclick="window.location='{{ route('register') }}'">
-                    <i class="fas fa-user-md text-4xl text-[#1E88E5] mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Accès aux médecins</h3>
-                    <p class="text-gray-600">Contactez facilement votre médecin traitant ou spécialiste.</p>
-                    <span class="inline-block mt-4 text-[#1E88E5] font-medium group-hover:underline">Prendre rendez-vous →</span>
-                </div>
-                <div class="card-hover bg-white rounded-xl p-6 shadow-sm text-center cursor-pointer transition-all duration-300 hover:shadow-md group" onclick="window.location='{{ route('register') }}'">
-                    <i class="fas fa-chart-line text-4xl text-[#1E88E5] mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Gestion intelligente</h3>
-                    <p class="text-gray-600">Optimisation des flux de patients et réduction des temps d'attente.</p>
-                    <span class="inline-block mt-4 text-[#1E88E5] font-medium group-hover:underline">En savoir plus →</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION SPÉCIALISTES ==================== -->
-    <section id="specialistes" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Nos spécialistes</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-                    <div class="bg-gradient-to-r from-[#1E88E5] to-[#0b5e9e] h-24"></div>
-                    <div class="p-6 text-center -mt-12">
-                        <div class="w-24 h-24 rounded-full mx-auto border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden">
-                            <i class="fas fa-user-md text-5xl text-[#1E88E5]"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mt-4">Dr. Koffi Mensah</h3>
-                        <p class="text-[#1E88E5] font-medium">Médecin généraliste</p>
-                        <p class="text-gray-600 text-sm mt-2">Disponible du lundi au vendredi, 8h-16h</p>
-                        <a href="{{ route('register') }}" class="inline-block mt-4 bg-[#43A047] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2E7D32] transition">Prendre rendez-vous</a>
-                    </div>
-                </div>
-                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-                    <div class="bg-gradient-to-r from-[#1E88E5] to-[#0b5e9e] h-24"></div>
-                    <div class="p-6 text-center -mt-12">
-                        <div class="w-24 h-24 rounded-full mx-auto border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden">
-                            <i class="fas fa-female text-5xl text-[#1E88E5]"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mt-4">Dr. Amélie Dossou</h3>
-                        <p class="text-[#1E88E5] font-medium">Gynécologue</p>
-                        <p class="text-gray-600 text-sm mt-2">Consultations sur rendez-vous</p>
-                        <a href="{{ route('register') }}" class="inline-block mt-4 bg-[#43A047] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2E7D32] transition">Prendre rendez-vous</a>
-                    </div>
-                </div>
-                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-                    <div class="bg-gradient-to-r from-[#1E88E5] to-[#0b5e9e] h-24"></div>
-                    <div class="p-6 text-center -mt-12">
-                        <div class="w-24 h-24 rounded-full mx-auto border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden">
-                            <i class="fas fa-user-md text-5xl text-[#1E88E5]"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mt-4">Dr. Jean Houénou</h3>
-                        <p class="text-[#1E88E5] font-medium">Pédiatre</p>
-                        <p class="text-gray-600 text-sm mt-2">Consultations pour enfants</p>
-                        <a href="{{ route('register') }}" class="inline-block mt-4 bg-[#43A047] text-white px-6 py-2 rounded-full text-sm hover:bg-[#2E7D32] transition">Prendre rendez-vous</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== COMMENT ÇA MARCHE ==================== -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Comment ça marche ?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="text-center">
-                    <div class="bg-[#1E88E5] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-                    <h3 class="text-xl font-semibold mb-2">Créer un compte</h3>
-                    <p class="text-gray-600">Inscrivez-vous en 2 minutes avec votre email ou numéro de téléphone.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-[#1E88E5] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-                    <h3 class="text-xl font-semibold mb-2">Choisir le centre</h3>
-                    <p class="text-gray-600">Sélectionnez le Centre de santé de Ouando.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-[#1E88E5] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
-                    <h3 class="text-xl font-semibold mb-2">Prendre rendez-vous</h3>
-                    <p class="text-gray-600">Choisissez la date et l'heure qui vous conviennent.</p>
-                </div>
-                <div class="text-center">
-                    <div class="bg-[#1E88E5] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
-                    <h3 class="text-xl font-semibold mb-2">Recevoir confirmation</h3>
-                    <p class="text-gray-600">Un SMS/email confirme votre rendez-vous avec les détails nécessaires.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== SECTION CENTRE DE SANTÉ ==================== -->
-    <section id="centre" class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Notre centre</h2>
-            <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg flex flex-col md:flex-row max-w-4xl mx-auto">
-                <div class="md:w-1/3 bg-cover bg-center" style="background-image: url('{{ asset('images/centre-ouando.jpg') }}'); min-height: 200px;"></div>
-                <div class="p-6 md:w-2/3">
-                    <h3 class="text-2xl font-bold text-gray-800">Centre de santé de Ouando</h3>
-                    <p class="text-gray-600 mt-2"><i class="fas fa-map-marker-alt text-[#1E88E5] mr-1"></i> Porto-Novo, Bénin</p>
-                    <p class="text-gray-600 mt-2"><i class="fas fa-user-md text-[#1E88E5] mr-1"></i> 8 médecins généralistes, 3 spécialistes</p>
-                    <p class="text-gray-600 mt-2"><i class="fas fa-clock text-[#1E88E5] mr-1"></i> Ouvert 7j/7, 8h-18h</p>
-                    <a href="{{ route('register') }}" class="inline-block mt-4 text-[#1E88E5] font-medium hover:underline">Prendre un rendez-vous →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== AVANTAGES ==================== -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Pourquoi choisir SanteRDV ?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                <div><i class="fas fa-hourglass-half text-4xl text-[#1E88E5] mb-2"></i><p class="text-lg font-semibold">Réduction des files d'attente</p><p class="text-gray-600">Moins d'attente, plus de confort.</p></div>
-                <div><i class="fas fa-stopwatch text-4xl text-[#1E88E5] mb-2"></i><p class="text-lg font-semibold">Gain de temps</p><p class="text-gray-600">Prise de RDV en 2 minutes chrono.</p></div>
-                <div><i class="fas fa-chart-simple text-4xl text-[#1E88E5] mb-2"></i><p class="text-lg font-semibold">Meilleure organisation</p><p class="text-gray-600">Planning optimisé pour les médecins.</p></div>
-                <div><i class="fas fa-notes-medical text-4xl text-[#1E88E5] mb-2"></i><p class="text-lg font-semibold">Suivi médical optimisé</p><p class="text-gray-600">Historique complet à portée de main.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== CTA ==================== -->
-    <section class="bg-gradient-to-r from-[#1E88E5] to-[#0b5e9e] text-white py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">Prêt à prendre soin de votre santé ?</h2>
-            <p class="text-xl mb-8 opacity-90">Prenez rendez-vous dès maintenant et rejoignez des milliers de patients satisfaits.</p>
-            <a href="{{ route('register') }}" class="inline-block bg-[#43A047] text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-[#2E7D32] transition shadow-lg">Prendre rendez-vous</a>
-        </div>
-    </section>
-
-    <!-- ==================== FOOTER ==================== -->
-    <footer class="bg-gray-900 text-gray-300 py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- Footer -->
+    <footer class="bg-gradient-footer text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-10">
                 <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <i class="fas fa-heartbeat text-2xl text-[#1E88E5]"></i>
-                        <span class="text-xl font-bold text-white">SanteRDV</span>
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-hero flex items-center justify-center">
+                            <i class="fas fa-hospital-user text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">OuandoSanté</span>
                     </div>
-                    <p>Rendez-vous médical simplifié, suivi intelligent.</p>
-                    <p class="mt-2"><i class="fas fa-map-marker-alt mr-2"></i> Porto-Novo, Bénin</p>
-                    <p><i class="fas fa-phone-alt mr-2"></i> +229 21 30 00 00</p>
-                    <p><i class="fas fa-envelope mr-2"></i> contact@santerdv.bj</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Centre médical d'excellence dédié à votre bien-être depuis plus de 10 ans.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#0B5E42] transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#0B5E42] transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#0B5E42] transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#0B5E42] transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Liens rapides</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#accueil" class="hover:text-white transition">Accueil</a></li>
-                        <li><a href="#services" class="hover:text-white transition">Services</a></li>
-                        <li><a href="#specialistes" class="hover:text-white transition">Spécialistes</a></li>
-                        <li><a href="#centre" class="hover:text-white transition">Le centre</a></li>
+                    <h4 class="font-semibold text-lg mb-5">Liens rapides</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#accueil" class="hover:text-white transition flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Accueil</a></li>
+                        <li><a href="#services" class="hover:text-white transition flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Services</a></li>
+                        <li><a href="#medecins" class="hover:text-white transition flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Médecins</a></li>
+                        <li><a href="#temoignages" class="hover:text-white transition flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Témoignages</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-semibold mb-4">Légal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-white transition">Confidentialité</a></li>
-                        <li><a href="#" class="hover:text-white transition">Conditions d'utilisation</a></li>
-                        <li><a href="#" class="hover:text-white transition">Mentions légales</a></li>
-                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
+                    <h4 class="font-semibold text-lg mb-5">Horaires</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><i class="fas fa-calendar-day w-5 text-[#0B5E42]"></i> Lundi - Vendredi: 08h - 18h</li>
+                        <li><i class="fas fa-calendar-week w-5 text-[#0B5E42]"></i> Samedi: 08h - 13h</li>
+                        <li><i class="fas fa-calendar-times w-5 text-[#0B5E42]"></i> Dimanche: Fermé</li>
+                        <li><i class="fas fa-ambulance w-5 text-[#0B5E42]"></i> Urgences: 24h/24</li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="text-white font-semibold mb-4">Sécurité</h4>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-lock text-[#43A047] text-xl"></i>
-                        <span>Données sécurisées</span>
-                    </div>
-                    <div class="flex items-center space-x-2 mt-2">
-                        <i class="fas fa-certificate text-[#43A047] text-xl"></i>
-                        <span>Plateforme conforme aux bonnes pratiques de e-santé</span>
-                    </div>
+                <div id="contact">
+                    <h4 class="font-semibold text-lg mb-5">Contact</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><i class="fas fa-phone-alt w-5 text-[#0B5E42]"></i> +229 97 12 34 56</li>
+                        <li><i class="fas fa-envelope w-5 text-[#0B5E42]"></i> contact@ouandosante.bj</li>
+                        <li><i class="fas fa-map-marker-alt w-5 text-[#0B5E42]"></i> Cotonou, Bénin</li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-sm">
-                &copy; {{ date('Y') }} SanteRDV. Tous droits réservés.
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 Centre de Santé Ouando. Tous droits réservés. | Conçu avec <i class="fas fa-heart text-red-500"></i> pour votre santé</p>
             </div>
         </div>
     </footer>
-
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <script>
-        // Données fictives des médecins par spécialité
-        const medecinsParSpecialite = {
-            generaliste: [
-                { id: 1, nom: "Dr. Koffi Mensah" },
-                { id: 2, nom: "Dr. Awa Traoré" }
-            ],
-            pediatrie: [
-                { id: 3, nom: "Dr. Jean Houénou" },
-                { id: 4, nom: "Dr. Marie Adjovi" }
-            ],
-            gynecologie: [
-                { id: 5, nom: "Dr. Amélie Dossou" },
-                { id: 6, nom: "Dr. Camille Hounkpatin" }
-            ],
-            cardiologie: [
-                { id: 7, nom: "Dr. Paul Akpovo" },
-                { id: 8, nom: "Dr. Léa Zinsou" }
-            ]
-        };
-
-        const specialiteSelect = document.getElementById('specialite');
-        const medecinSelect = document.getElementById('medecin');
-        const btnRechercher = document.getElementById('btnRechercher');
-
-        specialiteSelect.addEventListener('change', function() {
-            const valeur = this.value;
-            medecinSelect.innerHTML = '<option value="">Sélectionnez un médecin</option>';
-            if (valeur && medecinsParSpecialite[valeur]) {
-                medecinsParSpecialite[valeur].forEach(medecin => {
-                    const option = document.createElement('option');
-                    option.value = medecin.id;
-                    option.textContent = medecin.nom;
-                    medecinSelect.appendChild(option);
-                });
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-lg');
+                navbar.classList.add('bg-transparent');
             }
         });
-
-        btnRechercher.addEventListener('click', function() {
-            const medecinId = medecinSelect.value;
-            if (!medecinId) {
-                alert('Veuillez sélectionner un médecin.');
-                return;
-            }
-            window.location.href = "{{ route('register') }}?doctor=" + medecinId;
-        });
-
-        document.querySelectorAll('#emergency-nav, #emergency-fab').forEach(el => {
-            el.addEventListener('click', (e) => {
-                e.preventDefault();
-                const urgentSection = document.querySelector('.bg-red-50');
-                if (urgentSection) {
-                    urgentSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Counter animation
+        const counters = document.querySelectorAll('.counter-number');
+        const speed = 200;
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+            const increment = target / speed;
+            
+            const updateCount = () => {
+                count += increment;
+                if (count < target) {
+                    counter.textContent = Math.ceil(count);
+                    setTimeout(updateCount, 20);
                 } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    counter.textContent = target;
+                }
+            };
+            updateCount();
+        };
+        
+        // Intersection Observer for counters
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        counters.forEach(counter => observer.observe(counter));
+        
+        // Initialize Swiper
+        new Swiper('.testimonial-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+        });
+        
+        // Particles animation
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                alpha: Math.random() * 0.5 + 0.2,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+        
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        
+        drawParticles();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });

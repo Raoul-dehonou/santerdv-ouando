@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Patient\DashboardController as PatientDashboardController;
+use App\Http\Controllers\Patient\RendezVousController as PatientRendezVousController;
+use App\Http\Controllers\Patient\DossierController as PatientDossierController;
 
 // ==============================================
 // ROUTES PUBLIQUES
@@ -17,15 +20,15 @@ Route::get('/dashboard', function () {
     /** @var \App\Models\User|null $user */
     $user = auth()->user();
     
-    if ($user && $user->role === 'admin') {
+    if ($user && isset($user->role) && $user->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
     
-    if ($user && $user->role === 'medecin') {
+    if ($user && isset($user->role) && $user->role === 'medecin') {
         return redirect()->route('medecin.dashboard');
     }
     
-    if ($user && $user->role === 'patient') {
+    if ($user && isset($user->role) && $user->role === 'patient') {
         return redirect()->route('patient.dashboard');
     }
     
@@ -85,11 +88,13 @@ Route::middleware(['auth', 'role:medecin'])->prefix('medecin')->name('medecin.')
     // Rendez-vous
     Route::view('/rendez-vous', 'medecin.rendez-vous.index')->name('rendez-vous.index');
     Route::view('/rendez-vous/calendar', 'medecin.rendez-vous.calendar')->name('rendez-vous.calendar');
+    Route::view('/rendez-vous/create', 'medecin.rendez-vous.create')->name('rendez-vous.create');
     Route::view('/rendez-vous/{id}', 'medecin.rendez-vous.show')->name('rendez-vous.show');
     
     // Consultations
     Route::view('/consultations', 'medecin.consultations.index')->name('consultations.index');
-    Route::view('/consultations/create/{rdv_id}', 'medecin.consultations.create')->name('consultations.create');
+    Route::view('/consultations/create', 'medecin.consultations.create')->name('consultations.create');
+    Route::view('/consultations/create/{rdv_id}', 'medecin.consultations.create')->name('consultations.create.with.rdv');
     Route::view('/consultations/{id}', 'medecin.consultations.show')->name('consultations.show');
     
     // Patients
@@ -102,25 +107,27 @@ Route::middleware(['auth', 'role:medecin'])->prefix('medecin')->name('medecin.')
 });
 
 // ==============================================
-// ROUTES POUR LE PATIENT (VUES UNIQUEMENT)
+// ROUTES POUR LE PATIENT (AVEC CONTROLEURS)
 // ==============================================
 Route::middleware(['auth', 'role:patient'])->prefix('patient')->name('patient.')->group(function () {
     
-    // Dashboard
-    Route::view('/dashboard', 'patient.dashboard')->name('dashboard');
+    // Dashboard (avec contrôleur)
+    Route::get('/dashboard', [PatientDashboardController::class, 'index'])->name('dashboard');
     
-    // Rendez-vous
-    Route::view('/rendez-vous', 'patient.rendez-vous.index')->name('rendez-vous.index');
-    Route::view('/rendez-vous/create', 'patient.rendez-vous.create')->name('rendez-vous.create');
-    Route::view('/rendez-vous/{id}', 'patient.rendez-vous.show')->name('rendez-vous.show');
+    // Dossier médical (avec son propre contrôleur)
+    Route::prefix('dossier')->name('dossier.')->group(function () {
+        Route::get('/', [PatientDossierController::class, 'index'])->name('index');
+    });
     
-    // Dossier médical
-    Route::view('/dossier', 'patient.dossier.index')->name('dossier.index');
-    Route::view('/dossier/consultations', 'patient.dossier.consultations')->name('dossier.consultations');
-    Route::view('/dossier/ordonnances', 'patient.dossier.ordonnances')->name('dossier.ordonnances');
-    
-    // Profil
-    Route::view('/profil', 'patient.profil.edit')->name('profil.edit');
+    // Rendez-vous (avec contrôleur)
+    Route::prefix('rendez-vous')->name('rendez-vous.')->group(function () {
+        Route::get('/', [PatientRendezVousController::class, 'index'])->name('index');
+        Route::get('/create', [PatientRendezVousController::class, 'create'])->name('create');
+        Route::post('/', [PatientRendezVousController::class, 'store'])->name('store');
+        Route::get('/{id}', [PatientRendezVousController::class, 'show'])->name('show');
+        Route::delete('/{id}', [PatientRendezVousController::class, 'destroy'])->name('destroy');
+        Route::delete('/{id}/cancel', [PatientRendezVousController::class, 'destroy'])->name('cancel');
+    });
 });
 
 require __DIR__.'/auth.php';

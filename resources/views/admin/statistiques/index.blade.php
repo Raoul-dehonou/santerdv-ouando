@@ -10,9 +10,9 @@
     <div class="bg-white rounded-xl shadow-sm p-4">
         <div class="flex flex-wrap gap-4 items-center">
             <select id="yearSelect" class="border rounded-lg px-3 py-2">
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
+                <option value="2024">2028</option>
+                <option value="2023">2027</option>
+                <option value="2022">2026</option>
             </select>
             <button id="refreshStats" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
                 Actualiser
@@ -27,7 +27,7 @@
                 <div>
                     <p class="text-gray-500 text-sm">Total Patients</p>
                     <p class="text-3xl font-bold" id="totalPatients">156</p>
-                    <p class="text-xs text-green-600 mt-1">+12% vs 2023</p>
+                    <p class="text-xs text-green-600 mt-1">+12% vs 2024</p>
                 </div>
                 <i class="fas fa-users text-3xl text-primary"></i>
             </div>
@@ -38,7 +38,7 @@
                 <div>
                     <p class="text-gray-500 text-sm">Total Consultations</p>
                     <p class="text-3xl font-bold" id="totalConsultations">342</p>
-                    <p class="text-xs text-green-600 mt-1">+8% vs 2023</p>
+                    <p class="text-xs text-green-600 mt-1">+8% vs 2024</p>
                 </div>
                 <i class="fas fa-notes-medical text-3xl text-blue-500"></i>
             </div>
@@ -49,7 +49,7 @@
                 <div>
                     <p class="text-gray-500 text-sm">Taux d'occupation</p>
                     <p class="text-3xl font-bold" id="occupationRate">78%</p>
-                    <p class="text-xs text-green-600 mt-1">+5% vs 2023</p>
+                    <p class="text-xs text-green-600 mt-1">+5% vs 2024</p>
                 </div>
                 <i class="fas fa-chart-line text-3xl text-yellow-500"></i>
             </div>
